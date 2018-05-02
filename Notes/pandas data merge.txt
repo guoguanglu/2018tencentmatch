@@ -1,0 +1,30 @@
+#################################################################################################网址资料####################################################################################
+https://blog.csdn.net/stevenkwong/article/details/52528616
+#############################################################################################################################################################################################
+谈到pandas数据的行更新、表合并等操作，一般用到的方法有concat、join、merge:
+1.concat
+pd.concat(objs, axis=0, join='outer', join_axes=None, ignore_index=False,
+       keys=None, levels=None, names=None, verify_integrity=False)
+objs: series，dataframe或者是panel构成的序列lsit 
+axis： 需要合并链接的轴，0是行，1是列 
+join：连接的方式 inner，或者outer
+1.1 相同字段的表首尾相接
+# 现将表构成list，然后在作为concat的输入
+frames=[df1,df2,df3]
+result=pd.concat(frames)
+要在相接的时候在加上一个层次的key来识别数据源自于哪张表，可以增加key参数
+result = pd.concat(frames, keys=['x', 'y', 'z'])
+1.2 横向表拼接（行对齐）
+当axis = 1的时候，concat就是行对齐，然后将不同列名称的两张表合并
+result = pd.concat([df1, df4], axis=1)
+1.3 join
+加上join参数的属性，如果为’inner’得到的是两表的交集，如果是outer，得到的是两表的并集。
+result = pd.concat([df1, df4], axis=1, join='inner')
+1.4 join_axes
+如果有join_axes的参数传入，可以指定根据那个轴来对齐数据 
+例如根据df1表对齐数据，就会保留指定的df1表的轴，然后将df4的表与之拼接
+result = pd.concat([df1, df4], axis=1, join_axes=[df1.index])
+1.5 append
+append是series和dataframe的方法，使用它就是默认沿着列进行凭借（axis = 0，列对齐）
+result = df1.append(df2)
+如果两个表的index都没有实际含义，使用ignore_index参数，置true，合并的两个表就睡根据列字段对齐，然后合并。最后再重新整理一个新的index。

@@ -1,0 +1,63 @@
+##############################################################网站资源#######################################################################
+https://blog.csdn.net/sinat_32547403/article/details/73822660
+#############################################################################################################################################
+pandas是python环境下最有名的数据统计包，而DataFrame翻译为数据框，是一种数据组织方式，这么说你可能无法从感性上认识它，举个例子，你大概用过Excel，而它也是一种数据组织和呈现的方式，简单说就是表格，而在在pandas中用DataFrame组织数据，如果你不print DataFrame，你看不到这些数据，下面我们来看看DataFrame是如何使用的。
+一、基本使用
+1.首先是引入pandas和numpy，这是经常配合使用的两个包，pandas依赖于numpy，引入以后我们可以直接使用np/pd来表示这个两个模块
+2.先创建一个时间索引，所谓的索引（index)就是每一行数据的id，可以标识每一行的唯一值
+3.为了快速入门，我们看一下如何创建一个6X4的数据：randn函数用于创建随机数，参数表示行数和列数，dates是上一步创建的索引列
+example1:
+df=pd.DataFrame(np.random.randn(6,4),index=dates,columns=list("ABCD"))
+4.我们还可以使用字典来创建数据框，例如创建一个列名为A的数据框，索引是自动创建的整数
+example2:
+df2=pd.DataFrame({'A':np.random.randn(6),})
+5.假如字典内的数据长度不同，以最长的数据为准，
+6.接着看一下如何查看数据框中的数据，看一下所有的数据
+print df
+7.使用head查看前几行数据（默认是前5行），不过你可以指定前几行
+print df.head(3)
+8.使用tail查看后5行数据
+print df.tail(5)
+9.查看数据框的索引（即rowID）
+print df.index
+10.查看列名用columns
+print df.columns
+11.查看数据值，用values
+print df.values
+12.查看描述性统计，用describe
+13.使用T来转置数据，也就是行列转换
+print df.T
+14.对数据进行排序，用到了sort，参数可以指定根据哪一列数据进行排序。
+print df.sort(columns='C')
+15.DataFrame 按列取
+df[i]
+16.DataFrame 按行取
+df.ix[i]
+若取值+.values
+二、loc、iloc、ix索引的区别
+import pandas as pd
+data=[[1,2,3],[4,5,6]]
+index=['a','b']#行号
+columns=['c','d','e']#列号
+df=pd.DataFrame(data,index=index,columns=columns)#生成一个数据框
+索引行
+1.loc
+只能 df.loc['a']
+2.iloc
+只能 df.iloc[0]
+3.ix
+既可以 df.ix['a']又可以df.ix[0]
+索引列
+1.loc
+只能 df.loc[:,['a']]
+2.iloc
+只能 df.loc[:,[0]]
+3 ix
+两者都可以
+4.取列其他
+df.a或df['a'],df['a']是取值，df[['a']]取出DataFrame还是DataFrame
+三、其他知识点
+.drop()
+即删除 Series 的元素或 DataFrame 的某一行（列）的意思，通过对象的 .drop(labels, axis=0)
+axis=0:删除行，axis=1删除列
+.drop() 返回的是一个新对象，元对象不会被改变。
